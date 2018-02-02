@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pk.getsub.www.servergetsub.phoneauth.CustomPhoneAuthActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome To Get Sub"
+        android:textSize="22sp"
+
+        android:textColor="@color/colorDarkBrown"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        android:layout_marginTop="33dp" />
+
+
+    <TextView
+        android:id="@+id/txt_auth_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hint: +923321234567"
+        android:textSize="16sp"
+
+        android:textColor="@color/colorDarkBrown"
+        app:layout_constraintLeft_toLeftOf="@+id/edit_auth_number_txt_layout"
+        app:layout_constraintTop_toBottomOf="@+id/edit_auth_number_txt_layout"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="4dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_auth_number_txt_layout"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="42dp"
+        android:layout_marginRight="42dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1">
+
+        <EditText
+            android:id="@+id/edit_auth_number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:hint="Enter Your Phone Number"
+            android:inputType="textEmailAddress"
+            android:padding="16dp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_auth_number"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:textStyle="bold"
+
+        android:textColor="@color/colorLigtwhite"
+        android:textSize="18sp"
+        android:background="@drawable/custom_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_auth_number_txt_layout"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginTop="55dp"
+        app:layout_constraintHorizontal_bias="0.641" />
+
+
+    <ImageView
+        android:id="@+id/img_auth_number"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/phone"
+
+        app:layout_constraintRight_toLeftOf="@+id/edit_auth_number_txt_layout"
+        app:layout_constraintBottom_toTopOf="@+id/txt_auth_number"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="10dp" />
+
+    <!--  for Code Layout  -->
+
+
+    <Button
+        android:id="@+id/btn_auth_code"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textColor="@color/colorLigtwhite"
+        android:textSize="18sp"
+        android:background="@drawable/custom_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="29dp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_auth_code"
+        app:layout_constraintHorizontal_bias="0.417" />
+
+    <TextView
+        android:id="@+id/txt_auth_code"
+        android:layout_width="166dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Hint: Enter 6 digits code"
+        android:textColor="@color/colorDarkBrown"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/edit_auth_code_txt_layout"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.292" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_auth_code_txt_layout"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="98dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_auth_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Enter Code"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:visibility="gone"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+</android.support.constraint.ConstraintLayout>
