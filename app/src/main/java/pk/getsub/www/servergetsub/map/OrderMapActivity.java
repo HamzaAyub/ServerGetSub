@@ -344,6 +344,13 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+            // edar ye ni karna .. ni ty paht jani hai
+          /*  Intent intent = getIntent();
+            finish();
+            startActivity(intent);*/
+
+            showAlert(1);
+
             return;
         }
         mMap.setMyLocationEnabled(true);
@@ -393,18 +400,19 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
-        locationManager.requestLocationUpdates(provider, 1000, 0, OrderMapActivity.this);
+        locationManager.requestLocationUpdates(provider, 5000, 5, OrderMapActivity.this);
 
-        //  locationManager.requestLocationUpdates(provider, 5000, 5, OrderMapActivity.this);
+        //  locationManager.requestLocationUpdates(provider, 1000, 0, OrderMapActivity.this);
     }
 
 
     private void showAlert(final int status){
         String message , title , btnText;
         if(status ==1){
-            message = "Your Location is Off \n Please Enable Location" + "use this app";
+            message = "Your Location is Off "; // Please Enable Location" + "use this app
             title = "Enabel Location";
             btnText = "Location Setting";
         }

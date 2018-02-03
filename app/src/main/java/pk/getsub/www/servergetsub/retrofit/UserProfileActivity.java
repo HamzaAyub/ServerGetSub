@@ -101,7 +101,14 @@ public class UserProfileActivity extends AppCompatActivity {
                         showMessage("Fill the Address");
                         return;
                     } else if (myImgCheckTest == 0) {
-                        showMessage("Select The Image");
+                        storeUser.setName(editName);
+                        storeUser.setUserAddress(editAddress);
+                        storeUser.setUserImage("mNull");
+                        storeUser.setUserPhone(number); // phoneNumber
+
+                        UserPojo user = new UserPojo(editName, editAddress, number, "testImage");
+                        sendPost(user);
+                        startActivity(new Intent(UserProfileActivity.this, SplashScreen.class));
                         return;
                     }
              /*   else {
