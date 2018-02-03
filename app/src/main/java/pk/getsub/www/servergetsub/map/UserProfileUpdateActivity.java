@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ import pk.getsub.www.servergetsub.UserSharPrefer;
 import pk.getsub.www.servergetsub.retrofit.LaraService;
 import pk.getsub.www.servergetsub.retrofit.UserPojo;
 import pk.getsub.www.servergetsub.retrofit.UserProfileActivity;
+import pk.getsub.www.servergetsub.splashscreen.SplashScreen;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,6 +59,12 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile_update);
+
+        Toolbar toolbar = findViewById(R.id.include_user_profile_update_activity);
+        setSupportActionBar(toolbar);
+
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         imgProfile = findViewById(R.id.img_user_profile_update_detail);
         editName = findViewById(R.id.edit_name_user_profile_update_activity);
@@ -100,7 +108,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
                 UserPojo user = new UserPojo(name, address,phone);
                 updateUser(user);
-                //     startActivity(new Intent(UserProfileUpdateActivity.this, SplashScreen.class));
+                startActivity(new Intent(UserProfileUpdateActivity.this, SplashScreen.class));
 
 
             }
@@ -239,8 +247,8 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
                 //    Toast.makeText(UserProfileUpdateActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
-                showMessage("Proile is Updated");
-                //        startActivity(new Intent(UserProfileUpdateActivity.this, OrderMapActivity.class));
+              //  showMessage("Proile is Updated");
+                        startActivity(new Intent(UserProfileUpdateActivity.this, UserProfileDetailActivity.class));
 
 
 

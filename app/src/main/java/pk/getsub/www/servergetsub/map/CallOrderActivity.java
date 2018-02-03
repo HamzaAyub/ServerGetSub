@@ -38,7 +38,7 @@ public class CallOrderActivity extends AppCompatActivity {
 
                 //     Toast.makeText(CallOrderActivity.this, "Test Calll Button", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:03238090300"));
+                intent.setData(Uri.parse("tel:03494906012"));
 
                 if (ActivityCompat.checkSelfPermission(CallOrderActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -62,7 +62,7 @@ public class CallOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:03238090300"));
+                intent.setData(Uri.parse("tel:03494906012"));
 
                 if (ActivityCompat.checkSelfPermission(CallOrderActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling

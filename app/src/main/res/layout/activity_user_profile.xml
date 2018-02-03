@@ -50,7 +50,7 @@
             android:id="@+id/edit_address_user_profile"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Address"
+            android:hint="Home Address"
             android:padding="16dp"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />

@@ -73,7 +73,7 @@
             android:id="@+id/edit_address_show_chek_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Address"
+            android:hint="Home Address"
             android:padding="16dp"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
