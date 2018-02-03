@@ -632,6 +632,14 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+    @Override
+    protected void onRestart() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        super.onRestart();
+    }
+
 
     // method for show image from internal storage
     private void loadImageFromStorage(String path) {

@@ -118,6 +118,10 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                         Log.d(TAG, "onClick:  empty number");
 
                     } else if (isValidMobile(phoneNumber) == true) {
+
+                        String finalNumber = phoneNumber.substring(1);
+                        phoneNumber = "+92"+finalNumber;
+
                         if (phoneNumber.length() == 13) {
                             Log.d(TAG, "onClick: validddd");
 

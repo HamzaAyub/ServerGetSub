@@ -28,7 +28,7 @@
         android:id="@+id/txt_auth_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hint: +923321234567"
+        android:text="Hint: 03321234567"
         android:textSize="16sp"
 
         android:textColor="@color/colorDarkBrown"
