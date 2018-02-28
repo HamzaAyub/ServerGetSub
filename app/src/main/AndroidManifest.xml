@@ -43,7 +43,8 @@
         </activity>
         <activity android:name=".map.CallOrderActivity" />
         <activity android:name=".map.UserProfileDetailActivity" />
-        <activity android:name=".map.UserProfileUpdateActivity"></activity>
+        <activity android:name=".map.UserProfileUpdateActivity" />
+        <activity android:name=".checkaddress.ConfirmOrder"></activity>
     </application>
 
 </manifest>

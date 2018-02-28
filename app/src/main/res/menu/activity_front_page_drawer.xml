@@ -14,10 +14,10 @@
             android:title="My Profile"
             android:id="@+id/id_my_profile_menu1"
             />
-        <item
+        <!--<item
             android:title="My History"
             android:id="@+id/id_history_menu"
-            />
+            />-->
         <item
             android:title="Log Out"
             android:id="@+id/id_log_out_menu"/>

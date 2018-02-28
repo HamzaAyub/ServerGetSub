@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -89,6 +90,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private double myLongCord;
     private double myLatCord;
+    private Location initialLocation;
 
 
 /*
@@ -233,10 +235,32 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                 String detailOrder = editDetailOrder.getText().toString();
                 // check for iqbal town
 
-                double startLat = 31.480000 ;
+                double startLat = 31.480000;
                 double endLat = 31.529999;
                 double startLong = 74.250000;
                 double endLong = 74.299999;
+
+// with out change location
+
+                if (ActivityCompat.checkSelfPermission(OrderMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(OrderMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+
+                initialLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                myLatCord = initialLocation.getLatitude();
+                myLongCord = initialLocation.getLongitude();
+
+                /*initialLocation = new Location("service Provider");
+                myLatCord = initialLocation.getLatitude();
+                myLongCord = initialLocation.getLongitude();*/
+
                 if(!(myLatCord >31.480000 && myLatCord < 31.529999 && myLongCord > 74.250000 && myLongCord <74.299999)){
                     checkOrderBox("Sorry... \nOur Service Not Availabe At your Area");
                     return;
@@ -308,6 +332,9 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
+
         //  mo = new MarkerOptions().position(new LatLng(0,0)).title("My Current Location");
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
             requestPermissions(PERMISSION, PERMISSION_ALL);
@@ -404,6 +431,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             return;
         }
         locationManager.requestLocationUpdates(provider, 5000, 5, OrderMapActivity.this);
+       // locationManager.requestLocationUpdates();
 
         //  locationManager.requestLocationUpdates(provider, 1000, 0, OrderMapActivity.this);
     }
@@ -603,9 +631,9 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
         }
-        else if(id == R.id.id_history_menu){
+       /* else if(id == R.id.id_history_menu){
          //   Toast.makeText(this, "My History", Toast.LENGTH_SHORT).show();
-        }
+        }*/
         else if(id == R.id.id_log_out_menu){
 
 

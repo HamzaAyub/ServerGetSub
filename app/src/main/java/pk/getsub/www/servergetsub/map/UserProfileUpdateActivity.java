@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,14 +63,24 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.include_user_profile_update_activity);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
+       /* EditText et1 = (EditText) findViewById(R.id.edit_name_user_profile_update_activity) ;
+        et1.setSelection(et1.getText().length());
+        EditText et2 = (EditText) findViewById(R.id.edit_phone_user_profile_update_activity) ;
+        et2.setSelection(et2.getText().length());
+        EditText et3 = (EditText) findViewById(R.id.edit_address_user_profile_update_activity) ;
+        et3.setSelection(et3.getText().length());*/
 
         imgProfile = findViewById(R.id.img_user_profile_update_detail);
         editName = findViewById(R.id.edit_name_user_profile_update_activity);
         editPhone = findViewById(R.id.edit_phone_user_profile_update_activity);
         editAddress = findViewById(R.id.edit_address_user_profile_update_activity);
+
+
+
+
         btnUpdate = findViewById(R.id.btn_update_user_profile_detail_activity);
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +95,12 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
         editName.setText(storeUser.getName());
         editPhone.setText(storeUser.getUserPhone());
         editAddress.setText(storeUser.getUserAddress());
+
+
+/// moving cursor after text in edit field
+        editName.setSelection(editName.getText().length());
+        editPhone.setSelection(editPhone.getText().length());
+        editAddress.setSelection(editAddress.getText().length());
 
 // Update Button Click
 
@@ -248,7 +265,8 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
                 //    Toast.makeText(UserProfileUpdateActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
               //  showMessage("Proile is Updated");
-                        startActivity(new Intent(UserProfileUpdateActivity.this, UserProfileDetailActivity.class));
+                startActivity(new Intent(UserProfileUpdateActivity.this, UserProfileDetailActivity.class));
+             //   updateUserMessage("Your Profile is Updated");
 
 
 
@@ -263,6 +281,39 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void updateUserMessage(final String msg) {
+
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Update Message")
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
+                        Log.d(TAG, "updateUserMessage: " + msg);
+                        startActivity(new Intent(UserProfileUpdateActivity.this , OrderMapActivity.class));
+
+                    }
+                })
+                .show();
+    }
+
 
 
 }

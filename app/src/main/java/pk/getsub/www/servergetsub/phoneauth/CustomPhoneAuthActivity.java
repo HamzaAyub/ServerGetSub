@@ -136,8 +136,10 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                                     // if user already exit
                                     if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                                         startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
+                                        Log.d(TAG, " my test to check order first 1 ");
                                         finish();
-                                      //  System.exit(0);
+                                        return;
+                                     //   System.exit(0);
                                     }
                                     startActivity(new Intent(CustomPhoneAuthActivity.this , UserProfileActivity.class));
                                     Log.d(TAG, "onVerificationCompleted: ");
@@ -250,8 +252,11 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
 
                         if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                             startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
+
+                            Log.d(TAG, "my test to check button click : ");
                             finish();
-                          //  System.exit(0);
+
+                            System.exit(0);
                         }
                         else {
                             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
@@ -331,7 +336,6 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserPojo> call, Response<UserPojo> response) {
 
-
                 Log.d(TAG, "onResponse:" + response);
 
                 Log.d(TAG, "onResponse: Signup : " + response.message());
@@ -352,7 +356,6 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                 //   startActivity(new Intent(UserProfileActivity.this, FrontPageActivity.class));
 
                 //      startActivity(new Intent(UserProfileActivity.this, OrderMapActivity.class));
-
 
 
 

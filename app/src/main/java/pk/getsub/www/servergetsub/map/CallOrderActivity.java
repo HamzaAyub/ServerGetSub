@@ -11,7 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,6 +31,14 @@ public class CallOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_order);
 
+
+        Toolbar toolbar = findViewById(R.id.toolbar_call_order);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
         btnFirstCall = findViewById(R.id.btn_first_call_order);
         btnSecondCall = findViewById(R.id.btn_second_call_order);
 
@@ -38,7 +48,7 @@ public class CallOrderActivity extends AppCompatActivity {
 
                 //     Toast.makeText(CallOrderActivity.this, "Test Calll Button", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:03494906012"));
+                intent.setData(Uri.parse("tel:03211100117"));
 
                 if (ActivityCompat.checkSelfPermission(CallOrderActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -110,6 +120,15 @@ public class CallOrderActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

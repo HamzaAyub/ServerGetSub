@@ -33,6 +33,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="Enter Name"
+            android:inputType="text"
             android:padding="16dp"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
@@ -51,6 +52,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="Home Address"
+            android:inputType="text"
             android:padding="16dp"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />

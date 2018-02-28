@@ -67,6 +67,11 @@ public class CheckAddressActivity extends AppCompatActivity {
         final int userId1 = user.getUserId();
         editShowAddress.setText(userAddress);
 
+
+/// moving cursor after text in edit field
+        editShowAddress.setSelection(editShowAddress.getText().length());
+
+
         btnCheckAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +121,13 @@ public class CheckAddressActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<OrderPojo> call, Response<OrderPojo> response) {
                 Log.d(TAG, "onResponse: Order Send "+ response);
-                startActivity(new Intent(CheckAddressActivity.this, OrderMapActivity.class));
+
+
+                startActivity(new Intent(CheckAddressActivity.this, ConfirmOrder.class));
+                finish();
+             //   showMessage("Your order is confirm");
+
+          //      startActivity(new Intent(CheckAddressActivity.this, OrderMapActivity.class));
 
                 //   showMessage("Response : Order Send ");
             }
@@ -146,6 +157,8 @@ public class CheckAddressActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
                         //   Log.d(TAG, "showMessageBox: " + msg);
+
+                        startActivity(new Intent(CheckAddressActivity.this , OrderMapActivity.class));
                     }
                 })
                 .show();
