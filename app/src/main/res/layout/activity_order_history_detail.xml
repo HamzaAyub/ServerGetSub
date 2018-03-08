@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="pk.getsub.www.servergetsub.history.OrderHistoryDetailActivity">
+
+
+    <include layout="@layout/order_toolbar"
+        android:id="@+id/id_toolbar_order_history_detail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_heading_Address_order_history_detail"
+        android:textSize="24sp"
+        android:text="Address :"
+        android:textStyle="bold"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/id_address_order_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="address"
+        android:layout_marginLeft="16dp"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_heading_Order_order_history_detail"
+        android:textSize="24sp"
+        android:text="Order :"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="30dp"
+        />
+
+    <TextView
+        android:id="@+id/id_order_order_history_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_address_order_history"
+        android:layout_marginTop="16dp"
+        android:text="Order"
+        android:layout_marginLeft="16dp"
+        android:textSize="18sp"/>
+
+
+</LinearLayout>

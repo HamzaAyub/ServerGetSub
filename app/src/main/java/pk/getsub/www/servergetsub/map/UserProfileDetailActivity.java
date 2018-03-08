@@ -26,7 +26,7 @@ public class UserProfileDetailActivity extends AppCompatActivity {
     private static final String TAG = "HTAG";
     private ImageView imgProfile;
     private TextView txtName;
-    private TextView txtPhone;
+    /*private TextView txtPhone;*/
     private TextView txtAddress;
     private Button btnUpdate;
 
@@ -44,13 +44,13 @@ public class UserProfileDetailActivity extends AppCompatActivity {
 
         imgProfile = findViewById(R.id.img_user_profile_detail);
         txtName = findViewById(R.id.txt_name_user_profile_detail_activity);
-        txtPhone = findViewById(R.id.txt_phone_user_profile_detail_activity);
+       /* txtPhone = findViewById(R.id.txt_phone_user_profile_detail_activity);*/
         txtAddress = findViewById(R.id.txt_address_user_profile_activity);
         btnUpdate = findViewById(R.id.btn_update_user_profile_detail_activity);
 
         UserSharPrefer userstore = new UserSharPrefer(this);
         txtName.setText(userstore.getName());
-        txtPhone.setText(userstore.getUserPhone());
+       /* txtPhone.setText(userstore.getUserPhone());*/
         txtAddress.setText(userstore.getUserAddress());
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {

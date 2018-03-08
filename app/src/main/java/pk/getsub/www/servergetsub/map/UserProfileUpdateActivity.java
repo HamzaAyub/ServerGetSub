@@ -48,7 +48,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
     private static final String TAG = "HTAG";
     private ImageView imgProfile;
     private EditText editName;
-    private EditText editPhone;
+    /*private EditText editPhone;*/
     private EditText editAddress;
     private static final int IMG_CODE = 100;
     private static int myImgCheckTest = 0;
@@ -75,7 +75,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
         imgProfile = findViewById(R.id.img_user_profile_update_detail);
         editName = findViewById(R.id.edit_name_user_profile_update_activity);
-        editPhone = findViewById(R.id.edit_phone_user_profile_update_activity);
+        /*editPhone = findViewById(R.id.edit_phone_user_profile_update_activity);*/
         editAddress = findViewById(R.id.edit_address_user_profile_update_activity);
 
 
@@ -86,20 +86,20 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, IMG_CODE);
+                /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMG_CODE);*/
             }
         });
 
         storeUser = new UserSharPrefer(this);
         editName.setText(storeUser.getName());
-        editPhone.setText(storeUser.getUserPhone());
+        /*editPhone.setText(storeUser.getUserPhone());*/
         editAddress.setText(storeUser.getUserAddress());
 
 
 /// moving cursor after text in edit field
         editName.setSelection(editName.getText().length());
-        editPhone.setSelection(editPhone.getText().length());
+        /*editPhone.setSelection(editPhone.getText().length());*/
         editAddress.setSelection(editAddress.getText().length());
 
 // Update Button Click
@@ -108,22 +108,23 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = editName.getText().toString();
-                String phone = editPhone.getText().toString();
+                /*String phone = editPhone.getText().toString();*/
                 String address = editAddress.getText().toString();
 
-                if(name.equals("") || phone.equals("") || address.equals("")){
+                if(name.equals("") /*|| phone.equals("") */|| address.equals("")){
                     showMessage("Fill All Fields");
                     return;
                 }
 
                 storeUser.setName(name);
-                storeUser.setUserPhone(phone);
+                /*storeUser.setUserPhone(phone);*/
                 storeUser.setUserAddress(address);
 
                 //     Toast.makeText(UserProfileUpdateActivity.this, "Compeateeeeee", Toast.LENGTH_SHORT).show();
 
 
-                UserPojo user = new UserPojo(name, address,phone);
+               /* UserPojo user = new UserPojo(name, address,phone);*/
+                UserPojo user = new UserPojo(name, address);
                 updateUser(user);
                 startActivity(new Intent(UserProfileUpdateActivity.this, SplashScreen.class));
 
@@ -246,8 +247,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserPojo> call, Response<UserPojo> response) {
 
-/*
-                Log.d(TAG, "onResponse:" + response);
+           /*     Log.d(TAG, "onResponse:" + response);
 
 
                 Log.d(TAG, "onResponse: UserProfileUpdateActivity : " + response.message());
@@ -255,17 +255,16 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
                 int myId = response.body().getId();
                 storeUser.setUserId(myId);
-                Log.d(TAG, "onResponse: Store User Id: " + storeUser.getUserId());*/
+                Log.d(TAG, "onResponse: Store User Id: " + storeUser.getUserId());
 
 
-                //   startActivity(new Intent(UserProfileActivity.this, FrontPageActivity.class));
 
-                Log.d(TAG, "onResponse: UserProfileUpdateActivity : " + response.message());
+                Log.d(TAG, "onResponse: UserProfileUpdateActivity : " + response.message());*/
 
                 //    Toast.makeText(UserProfileUpdateActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
               //  showMessage("Proile is Updated");
-                startActivity(new Intent(UserProfileUpdateActivity.this, UserProfileDetailActivity.class));
+                startActivity(new Intent(UserProfileUpdateActivity.this, OrderMapActivity.class));
              //   updateUserMessage("Your Profile is Updated");
 
 

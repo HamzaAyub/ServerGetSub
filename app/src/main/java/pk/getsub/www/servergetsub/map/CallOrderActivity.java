@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.provider.Telephony;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,8 @@ public class CallOrderActivity extends AppCompatActivity {
     private static final String TAG = "HTAG";
     private Button btnFirstCall;
     private Button btnSecondCall;
+    private Button btnFirstSms;
+    private Button btnSecondSms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class CallOrderActivity extends AppCompatActivity {
 
         btnFirstCall = findViewById(R.id.btn_first_call_order);
         btnSecondCall = findViewById(R.id.btn_second_call_order);
+        btnFirstSms = findViewById(R.id.btn_1st_sms_call_order);
+        btnSecondSms = findViewById(R.id.btn_2nd_sms_call_order);
 
         btnFirstCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +95,75 @@ public class CallOrderActivity extends AppCompatActivity {
             }
         });
 
+        btnFirstSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: 1st Sms");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
+                {
+                    String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(CallOrderActivity.this); // Need to change the build to API 19
+
+                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                    sendIntent.setType("text/plain");
+                    sendIntent.putExtra("address", "03211100117");
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "");
+
+                    if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
+                    // any app that support this intent.
+                    {
+                        sendIntent.setPackage(defaultSmsPackageName);
+                    }
+                    startActivity(sendIntent);
+
+                }
+                else // For early versions, do what worked for you before.
+                {
+                    Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                    smsIntent.setType("vnd.android-dir/mms-sms");
+                    smsIntent.putExtra("address","phoneNumber");
+                    smsIntent.putExtra("sms_body","message");
+                    startActivity(smsIntent);
+                }
+
+            }
+        });
+
+        btnSecondSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: 2nd Sms ");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
+                {
+                    String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(CallOrderActivity.this); // Need to change the build to API 19
+
+                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                    sendIntent.setType("text/plain");
+                    sendIntent.putExtra("address", "03494906012");
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "");
+
+                    if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
+                    // any app that support this intent.
+                    {
+                        sendIntent.setPackage(defaultSmsPackageName);
+                    }
+                    startActivity(sendIntent);
+
+                }
+                else // For early versions, do what worked for you before.
+                {
+                    Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                    smsIntent.setType("vnd.android-dir/mms-sms");
+                    smsIntent.putExtra("address","phoneNumber");
+                    smsIntent.putExtra("sms_body","message");
+                    startActivity(smsIntent);
+                }
+            }
+        });
+
     }
+
 
 
     public void showMessage(final String msg) {

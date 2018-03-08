@@ -18,9 +18,20 @@
             android:title="My History"
             android:id="@+id/id_history_menu"
             />-->
+
+        <item
+            android:title="History"
+            android:id="@+id/id_history_menu"
+            />
+
+        <item
+            android:title="About us"
+            android:id="@+id/id_about_us_menu"
+            />
         <item
             android:title="Log Out"
             android:id="@+id/id_log_out_menu"/>
+
       <!--  <item
             android:title="My Profile"
             android:id="@+id/my_profile_menu"/>-->

@@ -1,5 +1,6 @@
 package pk.getsub.www.servergetsub.checkaddress;
 
+import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -19,6 +20,8 @@ import com.google.gson.GsonBuilder;
 
 import pk.getsub.www.servergetsub.R;
 import pk.getsub.www.servergetsub.UserSharPrefer;
+import pk.getsub.www.servergetsub.history.AppDatabase;
+import pk.getsub.www.servergetsub.history.UserHistory;
 import pk.getsub.www.servergetsub.map.OrderMapActivity;
 import pk.getsub.www.servergetsub.orderfrontpageactivity.OrderPojo;
 import pk.getsub.www.servergetsub.orderfrontpageactivity.OrderService;
@@ -79,6 +82,10 @@ public class CheckAddressActivity extends AppCompatActivity {
                 //    OrderPojo order = new OrderPojo(1, myOrder , "Second address");
 
 
+
+
+
+
                 String myAddress = editShowAddress.getText().toString();
                 if(myAddress.equals("")){
                     msgCheckBox("Please Enter Address");
@@ -122,6 +129,18 @@ public class CheckAddressActivity extends AppCompatActivity {
             public void onResponse(Call<OrderPojo> call, Response<OrderPojo> response) {
                 Log.d(TAG, "onResponse: Order Send "+ response);
 
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                AppDatabase.class, "database-name").build();
+
+                        UserHistory user1 = new UserHistory(  editShowAddress.getText().toString() , myOrder);
+                        //  UserHistory user1 = new UserHistory(  "This is my address" , "This is my Orderrr");
+                        db.userDao().insertAll(user1);
+                    }
+                });
+                t.start();
 
                 startActivity(new Intent(CheckAddressActivity.this, ConfirmOrder.class));
                 finish();

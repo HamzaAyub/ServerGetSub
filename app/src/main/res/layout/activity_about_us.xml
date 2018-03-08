@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pk.getsub.www.servergetsub.map.AboutUsActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+           <!-- <TextView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Tool Bar"
+                android:id="@+id/textView3" />-->
+
+            <include layout="@layout/order_toolbar"
+                android:id="@+id/id_toolbar_about_us"
+                />
+
+
+            <TextView
+                android:id="@+id/main_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="About us:"
+                android:layout_marginTop="35dp" />
+
+            <TextView
+                android:id="@+id/id_introduction_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GetSub is an exclusive home delivery service that provides goods/products at the consumer's door step at minimal rates.GetSub is the first service that delivers each and every product at your door step. "
+                android:textSize="15sp"
+                android:textStyle="italic"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/id_heading_Services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Service:"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:layout_marginLeft="16sp"/>
+
+            <TextView
+                android:id="@+id/id_services_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GetSub is providing special home delivery service for supplying goods/products.
+Customer can order each and every product from the tip of the needle to the airline tickets.
+Customer can place the order from Rupee 1 to thousand's at fixed delivery rates/charges.
+Customer can order their products from desired stores/outlets.
+Customer can place order for just 5 rupees/100 rupee order.
+Customer can receive order within 25 minutes.
+GetSub is providing an additional service through which customer can access to the main stop of the respective town/area from their home in Rs 20 only."
+                android:textSize="15sp"
+                android:textStyle="italic"
+                android:layout_marginLeft="16sp"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mission Statement:"
+                android:textSize="24sp"
+                android:id="@+id/id_heading_mission_statment"
+                android:textStyle="bold"
+                android:layout_marginLeft="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Our mission is to deliver quality products in a convenient manner straight to our customer's homes. Our goal is to completely satisfy every customer through exceptional service, quality products and minimal service rates. "
+                android:textSize="15sp"
+                android:layout_marginTop="12dp"
+                android:textStyle="italic"
+                android:layout_marginLeft="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact:"
+                android:textSize="24sp"
+                android:id="@+id/id_heading_contact"
+                android:textStyle="bold"
+                android:layout_marginLeft="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You can place your order through our GetSub App, available on Google Play Store as well as through call and messages."
+                android:textSize="15sp"
+                android:layout_marginTop="12dp"
+                android:textStyle="italic"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

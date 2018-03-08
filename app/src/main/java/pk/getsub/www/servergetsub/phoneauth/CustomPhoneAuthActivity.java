@@ -127,22 +127,29 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
 
                             checkPhoneNumnber(phoneNumber);
 
-                            UserSharPrefer storeUser = new UserSharPrefer(CustomPhoneAuthActivity.this);
-                            storeUser.setUserPhone(phoneNumber);
+                       //     UserSharPrefer storeUser = new UserSharPrefer(CustomPhoneAuthActivity.this); for log out
+                            spUser.setUserPhone(phoneNumber);
                             PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60, TimeUnit.SECONDS, CustomPhoneAuthActivity.this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                                 @Override
                                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
+
+                                    Log.d(TAG, "onVerificationCompleted: 1st check");
+
                                     // if user already exit
                                     if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                                         startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
-                                        Log.d(TAG, " my test to check order first 1 ");
+                                   //     Log.d(TAG, " my test to check order first 1 ");
                                         finish();
                                         return;
                                      //   System.exit(0);
                                     }
-                                    startActivity(new Intent(CustomPhoneAuthActivity.this , UserProfileActivity.class));
-                                    Log.d(TAG, "onVerificationCompleted: ");
+                                    else{
+                                        Log.d(TAG, "onVerificationCompleted: else wala check ");
+                                        startActivity(new Intent(CustomPhoneAuthActivity.this , UserProfileActivity.class));
+
+                                    }
+
                                 }
 
                                 @Override
@@ -253,10 +260,10 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                         if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                             startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
 
-                            Log.d(TAG, "my test to check button click : ");
+                   //         Log.d(TAG, "my test to check button click : ");
                             finish();
-
-                            System.exit(0);
+                            return;
+                          //  System.exit(0);
                         }
                         else {
                             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
@@ -364,7 +371,7 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserPojo> call, Throwable t) {
                 Log.d(TAG, "onFailure:" + t);
-                showMessage("Some Connection Error");
+           //     showMessage("Some Connection Error");
             }
         });
 

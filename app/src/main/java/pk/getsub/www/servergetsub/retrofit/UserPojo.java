@@ -48,6 +48,14 @@ public class UserPojo {
 
     }
 
+    public UserPojo( String name, String address ) {
+        this.name = name;
+        this.address = address;
+
+        this.id = id;
+
+    }
+
     public Integer getId() {
         return id;
     }
