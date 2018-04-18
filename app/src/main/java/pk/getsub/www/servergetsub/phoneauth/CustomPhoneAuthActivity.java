@@ -90,13 +90,41 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    Intent intent = new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class); // splsh screen sy wapis aey to yanha jaey
-                    startActivity(intent);
-                    finish();
+
+
+
+                    if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
+                        Log.d(TAG, "onComplete: 2nd");
+                        startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
+                        finish();
+                        return;
+                    }
+                    else{
+
+                        Log.d(TAG, "onComplete: else part");
+                        startActivity(new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class)
+                                .putExtra("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().isEmpty())
+                        );
+
+                        finish();
+                    }
+
+
                 }
 
+
             }
+
+
         };
+
+
+
+
+
+
+
+
         cd = new ConnectionDetector(this);
         if (!(cd.CheckConnected())) {
             showMessage("No Internet Connection");
@@ -170,6 +198,8 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                                 public void onCodeAutoRetrievalTimeOut(String s) {
                                     super.onCodeAutoRetrievalTimeOut(s);
                                     Log.d(TAG, "onCodeAutoRetrievalTimeOut: ");
+
+                                    showMessage("Time out Error Try again");
                                 }
                             });
 
@@ -194,54 +224,6 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                     }
 
                 } // end internet if else
-                /////////////////////////////////////////////////////////////////
-
-              /*  else{
-                    UserSharPrefer storeUser = new UserSharPrefer(CustomPhoneAuthActivity.this);
-                    storeUser.setUserPhone(phoneNumber);
-                if (TextUtils.isEmpty(phoneNumber)) {
-                    return;
-                }
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber("+923328469195", 60, TimeUnit.SECONDS, CustomPhoneAuthActivity.this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                        @Override
-                        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-
-                        }
-
-                        @Override
-                        public void onVerificationFailed(FirebaseException e) {
-
-                        }
-
-                        @Override
-                        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                            super.onCodeSent(s, forceResendingToken);
-                            mVerificationId = s;
-
-
-                        }
-
-                        @Override
-                        public void onCodeAutoRetrievalTimeOut(String s) {
-                            super.onCodeAutoRetrievalTimeOut(s);
-                        }
-                    });
-                    //////////////////////////////////
-
-                    btnNumber.setVisibility(View.GONE);
-                    txtNumber.setVisibility(View.GONE);
-                    imgNumber.setVisibility(View.GONE);
-                    editNumber.setVisibility(View.GONE);
-                    editNumberText.setVisibility(View.GONE);
-
-                    btnCode.setVisibility(View.VISIBLE);
-                    editCode.setVisibility(View.VISIBLE);
-                    txtCode.setVisibility(View.VISIBLE);
-                    editCodeText.setVisibility(View.VISIBLE);
-
-
-                }*/
-                ///////////////////////////////////////////////////////////////
 
 
             }
@@ -257,7 +239,7 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                 if(!(code.equals(""))) {
                     if(code.length() == 6){
 
-                        if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
+                /*        if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                             startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
 
                    //         Log.d(TAG, "my test to check button click : ");
@@ -269,7 +251,11 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
                             signInWithCrediential(credential);
                             startActivity(new Intent(CustomPhoneAuthActivity.this , SplashScreen.class));
-                        }
+                        }*/
+
+                        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                        signInWithCrediential(credential);
+                        startActivity(new Intent(CustomPhoneAuthActivity.this , SplashScreen.class));
 
 
                     }
@@ -292,10 +278,43 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class)
+
+// bcz number should b check either user have it or not
+
+                            Log.d(TAG, "onComplete: 1st");
+
+                            if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
+
+                                Log.d(TAG, "onComplete: 2nd");
+                                startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
+                                finish();
+                                return;
+                            }
+                            else{
+
+
+
+                                Log.d(TAG, "onComplete: else part");
+                                startActivity(new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class)
+                                        .putExtra("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().isEmpty())
+                                );
+
+                                finish();
+                            }
+
+
+
+
+                          /*  startActivity(new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class)
                                     .putExtra("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().isEmpty())
                             );
-                            finish();
+
+                            finish();*/
+                        }
+
+                        else {
+                            showMessage("Enter Correct Code");
+                            return;
                         }
                     }
                 });

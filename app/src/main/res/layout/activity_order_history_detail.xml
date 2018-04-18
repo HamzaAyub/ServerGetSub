@@ -16,10 +16,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/id_heading_Address_order_history_detail"
         android:textSize="24sp"
-        android:text="Address :"
+        android:text="Order :"
         android:textStyle="bold"
         android:layout_marginTop="26dp"
-        android:layout_marginLeft="16dp"/>
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/myPureBlack"/>
 
     <TextView
         android:id="@+id/id_address_order_history"
@@ -28,17 +29,19 @@
         android:text="address"
         android:layout_marginLeft="16dp"
         android:textSize="18sp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textColor="@color/myPureBlack"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/id_heading_Order_order_history_detail"
         android:textSize="24sp"
-        android:text="Order :"
+        android:text="Address :"
         android:textStyle="bold"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="30dp"
+        android:textColor="@color/myPureBlack"
         />
 
     <TextView
@@ -49,7 +52,8 @@
         android:layout_marginTop="16dp"
         android:text="Order"
         android:layout_marginLeft="16dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:textColor="@color/myPureBlack"/>
 
 
 </LinearLayout>

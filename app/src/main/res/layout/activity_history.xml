@@ -10,17 +10,38 @@
     <include layout="@layout/order_toolbar"
         android:id="@+id/id_toolbar_activity_history"/>
 
-    <android.support.v7.widget.RecyclerView
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerview"
-        android:layout_marginTop="26dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="match_parent">
 
-       >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You haven't order anything yet so your history is empty."
+            android:textSize="24sp"
+            android:layout_margin="16dp"
+
+            android:id="@+id/show_txt_activity_history"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recyclerview"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="16dp"
+
+            >
+
+        </android.support.v7.widget.RecyclerView>
 
 
-    </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
+
+
+
+
 
 
 

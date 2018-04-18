@@ -37,11 +37,7 @@
         <activity
             android:name=".map.OrderMapActivity"
             android:clearTaskOnLaunch="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".map.CallOrderActivity" />
         <activity android:name=".map.UserProfileDetailActivity" />
@@ -49,7 +45,15 @@
         <activity android:name=".checkaddress.ConfirmOrder" />
         <activity android:name=".map.AboutUsActivity" />
         <activity android:name=".history.OrderHistoryDetailActivity" />
-        <activity android:name=".history.HistoryActivity"></activity>
+        <activity android:name=".history.HistoryActivity" />
+        <activity android:name=".splashscreen.MainSplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

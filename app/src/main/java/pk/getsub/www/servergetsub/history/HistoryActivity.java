@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class HistoryActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
 
     private ArrayList<UserHistory> arrayList;
+    private TextView txtMsgHistoryActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class HistoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        txtMsgHistoryActivity = (TextView) findViewById(R.id.show_txt_activity_history);
 
 
         arrayList = new ArrayList<>();
@@ -77,7 +81,16 @@ public class HistoryActivity extends AppCompatActivity {
                 }
                 Collections.reverse(arrayList);
 
-                Log.d(TAG, "run: " + arrayList.size());
+          //      Log.d(TAG, "run: " + arrayList.size());
+
+                if (arrayList.size() == 0 ){
+                    Log.d(TAG, "run:  you havnt order anything yet, so your history is empty");
+                }
+                else {
+                    Log.d(TAG, "run: u send orderr" + arrayList.size());
+
+                    txtMsgHistoryActivity.setVisibility(View.GONE);
+                }
 
 
                 //  Log.d(TAG, "run: " + myUser.get(1).getFirstName()+" // " + myUser.get(1).getLastName());
