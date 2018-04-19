@@ -363,13 +363,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 */
 
 
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 
 public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -410,7 +404,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private double myLongCord = 0.0;
     private double myLatCord = 0.0;
-    private Location initialLocation;
+    private Location initialLocation = null;
 
     private CameraPosition mCameraPosition;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -430,14 +424,11 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    private double myLati =0.0 ;
+    private double myLati = 0.0;
     private double myLong = 0.0;
 
 
-    private int varTest =0;
-
-
-
+    private int varTest = 0;
 
 
     @Override
@@ -475,6 +466,16 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onClick(View view) {
                 String detailOrder = editDetailOrder.getText().toString();
+
+
+                if (connectionDetector.CheckConnected()) {
+                    //     Log.d(TAG, "onClick: First Check");
+                } else {
+                    showMessage("Check Your Internet");
+                    return;
+
+                }
+
                 // check for iqbal town
 
                 double startLat = 31.480000;
@@ -490,21 +491,26 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
 
                 initialLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if(initialLocation == null){
-                    initialLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                }
-                if (initialLocation != null){
+
+                if (initialLocation != null) {
                     myLatCord = initialLocation.getLatitude();
                     myLongCord = initialLocation.getLongitude();
+                } else {
+                    initialLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    //     Log.d(TAG, " Else Part of initial Location");
+
                 }
-                else {
-                    showAlert(1);
+
+                if (initialLocation != null) {
+                    myLatCord = initialLocation.getLatitude();
+                    myLongCord = initialLocation.getLongitude();
+                } else {
+                    alertMessageInitialaLocation(1);
                     return;
                 }
 
 
-
-                if(!(myLatCord >31.480000 && myLatCord < 31.529999 && myLongCord > 74.250000 && myLongCord <74.299999)){
+                if (!(myLatCord > 31.480000 && myLatCord < 31.529999 && myLongCord > 74.250000 && myLongCord < 74.299999)) {
                     checkOrderBox("Sorry... \nOur Service Not Availabe At your Area");
                     return;
                 }
@@ -571,9 +577,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         }*/
 
 
-
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -581,14 +584,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
 
 
-
-
-
-
     }
-
-
-
 
 
     @Override
@@ -596,24 +592,20 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
         mMap = map;
-    //    mMap.setPadding(0, 420, 0, 0);
+        //    mMap.setPadding(0, 420, 0, 0);
 
         View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         // position on right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlp.setMargins(0,0,60,60);
+        rlp.setMargins(0, 0, 60, 60);
 
         getLocationPermission();
         updateLocationUI();
         createLocationRequest();
 
     }
-
-
-
-
 
 
     private void getLocationPermission() {
@@ -689,8 +681,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-
-
     protected void createLocationRequest() {
 
         LocationRequest mLocationRequest = new LocationRequest();
@@ -750,11 +740,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-
-
-
-
-
     private void myCurrentLocation() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -767,14 +752,13 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             public void onSuccess(Location location) {
                 if (location != null) {
 
-                    Log.d(TAG," Latitude : " + location.getLatitude() + " Longitude : "+ location.getLongitude());
+                    Log.d(TAG, " Latitude : " + location.getLatitude() + " Longitude : " + location.getLongitude());
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                             new LatLng(location.getLatitude(),
                                     location.getLongitude()), DEFAULT_ZOOM));
 
-                }
-                else {
+                } else {
                     Log.d(TAG, "onSuccess: Location Not Enable Last Method");
 
 
@@ -789,27 +773,17 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-
-
-
-
-
-
-
-
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // else code then map importan code
 
-    private void showAlert(final int status){
-        String message , title , btnText;
-        if(status ==1){
+    private void showAlert(final int status) {
+        String message, title, btnText;
+        if (status == 1) {
             message = "Your Location is Off "; // Please Enable Location" + "use this app
             title = "Enabel Location";
             btnText = "Location Setting";
-        }
-        else {
+        } else {
             message = "please allow this app to access location";
             title = "Permission access ";
             btnText = "Greate";
@@ -822,7 +796,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(status ==1){
+                        if (status == 1) {
                             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                             startActivity(intent);
                         }
@@ -843,7 +817,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
                     }
                 })*/
-             ;
+        ;
         dialog.show();
     }
 
@@ -868,8 +842,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
 */
-
-
 
 
     public void showMessage(final String msg) {
@@ -899,25 +871,21 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.id_home_menu){
+        if (id == R.id.id_home_menu) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_order_map_activity);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             }
-        }
-        else if(id == R.id.id_call_order_menu){
-            startActivity(new Intent(OrderMapActivity.this , CallOrderActivity.class));
-        }
-        else if(id == R.id.id_my_profile_menu1){
+        } else if (id == R.id.id_call_order_menu) {
+            startActivity(new Intent(OrderMapActivity.this, CallOrderActivity.class));
+        } else if (id == R.id.id_my_profile_menu1) {
             startActivity(new Intent(OrderMapActivity.this, UserProfileDetailActivity.class));
 
 
-        }
-        else if(id == R.id.id_history_menu){
-        //    Log.d(TAG, "onNavigationItemSelected: Hidtoryyyyy");
-            startActivity(new Intent(OrderMapActivity.this , HistoryActivity.class));
-        }
-        else if(id == R.id.id_log_out_menu){
+        } else if (id == R.id.id_history_menu) {
+            //    Log.d(TAG, "onNavigationItemSelected: Hidtoryyyyy");
+            startActivity(new Intent(OrderMapActivity.this, HistoryActivity.class));
+        } else if (id == R.id.id_log_out_menu) {
 
             logOutMsg("Are You Sure want to Log Out");
 
@@ -925,16 +893,14 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
          //   startActivity(new Intent(OrderMapActivity.this , SplashScreen.class));
             startActivity(new Intent(OrderMapActivity.this , CustomPhoneAuthActivity.class));
             finish();*/
-        }
-
-        else if(id == R.id.id_about_us_menu){
-            startActivity(new Intent(OrderMapActivity.this , AboutUsActivity.class));
+        } else if (id == R.id.id_about_us_menu) {
+            startActivity(new Intent(OrderMapActivity.this, AboutUsActivity.class));
         }
 
         return false;
     }
 
-    private void myLogOut(){
+    private void myLogOut() {
         storeUser.setUserAddress("mNull");
         storeUser.setName("mNull");
         storeUser.setUserPhone("mNull");
@@ -965,12 +931,11 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     }*/
 
 
-
-        // method for show image from internal storage
+    // method for show image from internal storage
     private void loadImageFromStorage(String path) {
 
 
-    // there is exception showing on this bcz image not uploaded  ... future thek karna hai
+        // there is exception showing on this bcz image not uploaded  ... future thek karna hai
 
 
        /* try {
@@ -1022,11 +987,11 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
                         Log.d(TAG, "Log Out Message " + msg);
-                       // return;
+                        // return;
 
                         myLogOut();
                         //   startActivity(new Intent(OrderMapActivity.this , SplashScreen.class));
-                        startActivity(new Intent(OrderMapActivity.this , CustomPhoneAuthActivity.class));
+                        startActivity(new Intent(OrderMapActivity.this, CustomPhoneAuthActivity.class));
                         finish();
 
                     }
@@ -1042,8 +1007,49 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
+    private void alertMessageInitialaLocation(final int status) {
+        String message, title, btnText;
+        if (status == 1) {
+            message = "If Location is on then wait few seconds. "; // Please Enable Location" + "use this app
+            title = "Enabel Location";
+            btnText = "Location Setting";
+        } else {
+            message = "please allow this app to access location";
+            title = "Permission access ";
+            btnText = "Greate";
+        }
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setCancelable(false);
+        dialog.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(btnText, new DialogInterface.OnClickListener() {
 
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (status == 1) {
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(intent);
+                        }
+                        /*else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(PERMISSION, PERMISSION_ALL);
+                            }
+                        }*/
+                    }
+                })
+             /*   .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                        // Activity goes back to previous check some code
+
+                        finish();
+
+                    }
+                })*/
+        ;
+        dialog.show();
+    }
 
 
 }
