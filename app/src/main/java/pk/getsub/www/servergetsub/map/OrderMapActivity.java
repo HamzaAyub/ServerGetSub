@@ -47,6 +47,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -56,6 +57,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,312 +69,16 @@ import pk.getsub.www.servergetsub.R;
 import pk.getsub.www.servergetsub.UserSharPrefer;
 import pk.getsub.www.servergetsub.checkaddress.CheckAddressActivity;
 import pk.getsub.www.servergetsub.checkinternet.ConnectionDetector;
+import pk.getsub.www.servergetsub.deliveryman.DeliveryManDisplay;
 import pk.getsub.www.servergetsub.history.HistoryActivity;
+import pk.getsub.www.servergetsub.notification.NotificationDetailActivity;
 import pk.getsub.www.servergetsub.phoneauth.CustomPhoneAuthActivity;
 import pk.getsub.www.servergetsub.splashscreen.SplashScreen;
 
 
-
-/*
-
-public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        LocationListener,
-        NavigationView.OnNavigationItemSelectedListener {
-
-
-
-    private static final String TAG = "HTAG";
-    private GoogleMap mMap;
-    private GoogleApiClient client;
-    private LocationRequest locationRequest;
-    private Location lastLocation;
-    private Marker currentLocationMarker;
-    private static final int REQUEST_LOCATION_CODE = 99;
-
-    private ConnectionDetector connectionDetector;
-    private Button btnCallOrder;
-    private EditText editDetailOrder;
-    private Button btnOrderMap;
-    private View profileDetailView;
-    private TextView txtProfileDetailName;
-    private TextView txtProfileDetailPhone;
-    private CircleImageView circleProfileDetailImage;
-    private UserSharPrefer storeUser;
-
-
-// new MAp
-
-    private LatLng myCoordinates;
-    private LocationManager locationManager;
-    private final static int PERMISSION_ALL = 1;
-    private final static String[] PERMISSION = {Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION};
-    private Marker marker;
-
-    private double myLongCord = 0.0;
-    private double myLatCord = 0.0;
-    private Location initialLocation;
-
-    private CameraPosition mCameraPosition;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
-    private static final int DEFAULT_ZOOM = 16;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
-
-    // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
-    private Location mLastKnownLocation;
-
-    // Keys for storing activity state.
-    private static final String KEY_CAMERA_POSITION = "camera_position";
-    private static final String KEY_LOCATION = "location";
-
-    private double myLati =0.0 ;
-    private double myLong = 0.0;
-
-
-        private int varTest =0;
-
-
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_map);
-        Toolbar toolbar = findViewById(R.id.toolbar_order_map_activity);
-        //setSupportActionBar(toolbar);
-        storeUser = new UserSharPrefer(OrderMapActivity.this); // initialize store variable of sp
-        if (storeUser.getName().equals("mNull") && storeUser.getUserAddress().equals("mNull")) {
-            startActivity(new Intent(OrderMapActivity.this, CustomPhoneAuthActivity.class));
-            finish();
-            //System.exit(0);
-            return;
-        }
-
-        connectionDetector = new ConnectionDetector(this);
-
-        editDetailOrder = findViewById(R.id.edit_order_map);
-        btnOrderMap = findViewById(R.id.btn_send_order_map);
-
-        btnOrderMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String detailOrder = editDetailOrder.getText().toString();
-                // check for iqbal town
-
-                double startLat = 31.480000;
-                double endLat = 31.529999;
-                double startLong = 74.250000;
-                double endLong = 74.299999;
-
-// with out change location
-
-                if (ActivityCompat.checkSelfPermission(OrderMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(OrderMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    return;
-                }
-
-                initialLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                myLatCord = initialLocation.getLatitude();
-                myLongCord = initialLocation.getLongitude();
-
-
-                if(!(myLatCord >31.480000 && myLatCord < 31.529999 && myLongCord > 74.250000 && myLongCord <74.299999)){
-                    checkOrderBox("Sorry... \nOur Service Not Availabe At your Area");
-                    return;
-                }
-
-                if (connectionDetector.CheckConnected()) {
-
-
-                    if (detailOrder.equals("")) {
-                        checkOrderBox("Please Enter Your Order");
-
-                    } else {
-                        startActivity(new Intent(OrderMapActivity.this, CheckAddressActivity.class).putExtra("myOrder", detailOrder));
-
-                    }
-                } else {
-                    showMessage("Check Your Internet");
-                }
-            }
-        });
-
-        btnCallOrder = findViewById(R.id.btn_call_order_map);
-        btnCallOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(OrderMapActivity.this, CallOrderActivity.class));
-
-            }
-        });
-
-        ////////////////////////////////////////////////////////////
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_order_map_activity);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        // actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPureWhite));
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_order_map);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        profileDetailView = navigationView.getHeaderView(0);
-        circleProfileDetailImage = (CircleImageView) profileDetailView.findViewById(R.id.profile_detail_circle_iamge);
-        txtProfileDetailName = (TextView) profileDetailView.findViewById(R.id.txt_profile_detail_name);
-        txtProfileDetailPhone = (TextView) profileDetailView.findViewById(R.id.txt_profile_detail_phone);
-        txtProfileDetailName.setText(storeUser.getName()); // get text from sp and sett in profiile
-        txtProfileDetailPhone.setText(storeUser.getUserPhone());
-
-// cz "myImgPath" is not store in UserProfileAcitivity
-        SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
-        String ss = sp.getString("myImgPath", "mNull");
-
-        loadImageFromStorage(ss);  // comment just for some testing ..
-
-/*
-        // cz "myImgPath" is not store in UserProfileAcitivity
-        SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
-        String ss = sp.getString("myImgPath", "mNull");
-        if(ss.equals("mNull")){
-            return;
-        }else {
-            loadImageFromStorage(ss);
-        }*/
-
-
-
-/*
-
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-
-
-        //  mo = new MarkerOptions().position(new LatLng(0,0)).title("My Current Location");
-        if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
-            requestPermissions(PERMISSION, PERMISSION_ALL);
-        } else requestLocation();
-        if (!isLocationEnabled()) {
-            showAlert(1);
-            // Toast.makeText(this, "Your Location is Of Please Enabel It", Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean isPermissionGranted() {
-
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "isPermissionGranted:  Permission Is Granted");
-            return true;
-        } else {
-            Log.d(TAG, "isPermissionGranted: Permission Not Granted");
-            return false;
-        }
-    }
-
-    private boolean isLocationEnabled() {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-    }
-
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setPadding(0, 420, 0, 0);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-
-            showAlert(1);
-
-            return;
-        }
-        mMap.setMyLocationEnabled(true);
-
-    }
-
-
-    @Override
-    public void onLocationChanged(Location location) {
-        LatLng myCordinate = new LatLng(location.getLatitude() , location.getLongitude());
-
-        myLatCord = location.getLatitude();
-        myLongCord = location.getLongitude();
-
-        float zoomLevel = 16.0f;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCordinate,zoomLevel));
-
-        //   mMap.moveCamera(CameraUpdateFactory.newLatLng(myCordinate));  // Current Location but not zom
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    private void requestLocation() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setPowerRequirement(Criteria.POWER_HIGH);
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-            return;
-        }
-        locationManager.requestLocationUpdates(provider, 5000, 5, OrderMapActivity.this);
-       // locationManager.requestLocationUpdates();
-
-        //  locationManager.requestLocationUpdates(provider, 1000, 0, OrderMapActivity.this);
-    }
-
-*/
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener {
 
-
-    /*  public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback ,NavigationView.OnNavigationItemSelectedListener  {
-  */
     private static final String TAG = "HTAG";
     private GoogleMap mMap;
     private GoogleApiClient client;
@@ -405,7 +112,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     private double myLongCord = 0.0;
     private double myLatCord = 0.0;
     private Location initialLocation = null;
-
     private CameraPosition mCameraPosition;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
@@ -430,6 +136,10 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private int varTest = 0;
 
+    private double dbLatitude = 0.0;
+    private double dblLongitude = 0.0;
+    private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -444,6 +154,26 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         Toolbar toolbar = findViewById(R.id.toolbar_order_map_activity);
         //setSupportActionBar(toolbar);
         storeUser = new UserSharPrefer(OrderMapActivity.this); // initialize store variable of sp
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        /*if(getIntent().getExtras() != null){
+            for(String key : getIntent().getExtras().keySet()) {
+                if (key.equals("title")) {
+                    //    txtTitile.setText(getIntent().getExtras().getString(key));
+                    storeUser.setNotiTitle(getIntent().getExtras().getString(key));
+                } else if (key.equals("message")) {
+                    //   txtMessage.setText(getIntent().getExtras().getString(key))
+                    storeUser.setNotiMessage(getIntent().getExtras().getString(key));
+                }
+
+            }
+
+            Log.d(TAG, "onCreate: Activity have some data");
+        }
+        else {
+            Log.d(TAG, "onCreate: Not have Data");
+        }
+*/
 
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -466,8 +196,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onClick(View view) {
                 String detailOrder = editDetailOrder.getText().toString();
-
-
                 if (connectionDetector.CheckConnected()) {
                     //     Log.d(TAG, "onClick: First Check");
                 } else {
@@ -485,20 +213,21 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 // with out change location
 
-                if (ActivityCompat.checkSelfPermission(OrderMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(OrderMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+                if (ActivityCompat.checkSelfPermission(
+                        OrderMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(
+                        OrderMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-
                 initialLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
                 if (initialLocation != null) {
                     myLatCord = initialLocation.getLatitude();
                     myLongCord = initialLocation.getLongitude();
                 } else {
                     initialLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     //     Log.d(TAG, " Else Part of initial Location");
-
                 }
 
                 if (initialLocation != null) {
@@ -508,16 +237,15 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     alertMessageInitialaLocation(1);
                     return;
                 }
-
-
-                if (!(myLatCord > 31.480000 && myLatCord < 31.529999 && myLongCord > 74.250000 && myLongCord < 74.299999)) {
-                    checkOrderBox("Sorry... \nOur Service Not Availabe At your Area");
+                if (!((myLatCord > 31.480000 && myLatCord < 31.529999 && myLongCord > 74.250000 && myLongCord < 74.299999)
+                        || (myLatCord > 31.627000 && myLatCord < 31.630000 && myLongCord > 74.284000 && myLongCord < 74.287000)
+                        || (myLatCord > 31.370000 && myLatCord < 31.400000 && myLongCord > 74.220000 && myLongCord < 74.250000)
+                )) {
+                    checkOrderBox("Sorry.... \nOur Service Not Availabe At your Area");
                     return;
                 }
 
                 if (connectionDetector.CheckConnected()) {
-
-
                     if (detailOrder.equals("")) {
                         checkOrderBox("Please Enter Your Order");
 
@@ -542,7 +270,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         ////////////////////////////////////////////////////////////
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_order_map_activity);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_order_map_activity);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -550,13 +278,13 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPureWhite));
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_order_map);
+        NavigationView navigationView = findViewById(R.id.nav_view_order_map);
         navigationView.setNavigationItemSelectedListener(this);
 
         profileDetailView = navigationView.getHeaderView(0);
-        circleProfileDetailImage = (CircleImageView) profileDetailView.findViewById(R.id.profile_detail_circle_iamge);
-        txtProfileDetailName = (TextView) profileDetailView.findViewById(R.id.txt_profile_detail_name);
-        txtProfileDetailPhone = (TextView) profileDetailView.findViewById(R.id.txt_profile_detail_phone);
+        circleProfileDetailImage = profileDetailView.findViewById(R.id.profile_detail_circle_iamge);
+        txtProfileDetailName = profileDetailView.findViewById(R.id.txt_profile_detail_name);
+        txtProfileDetailPhone = profileDetailView.findViewById(R.id.txt_profile_detail_phone);
         txtProfileDetailName.setText(storeUser.getName()); // get text from sp and sett in profiile
         txtProfileDetailPhone.setText(storeUser.getUserPhone());
 
@@ -586,12 +314,14 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-
     @Override
     public void onMapReady(GoogleMap map) {
-
-
         mMap = map;
+        /*LatLng sydney = new LatLng(0.0, 0.0);
+        mMap.addMarker(new MarkerOptions()
+                .position(sydney)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.phone)));*/
+
         //    mMap.setPadding(0, 420, 0, 0);
 
         View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -600,13 +330,11 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         rlp.setMargins(0, 0, 60, 60);
-
         getLocationPermission();
         updateLocationUI();
         createLocationRequest();
 
     }
-
 
     private void getLocationPermission() {
         /*
@@ -643,7 +371,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
                         mLocationPermissionGranted = true;
                         mMap.setMyLocationEnabled(true);
-
                     }
                 } else  // permission is denied
                 {
@@ -688,7 +415,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         SettingsClient client = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
@@ -701,16 +427,12 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                         && locationSettingsResponse.getLocationSettingsStates().isNetworkLocationUsable()) {
                     Log.d(TAG, "onSuccess: Location is Enable");
                     //    getDeviceLocation();
-
                     myCurrentLocation();
-
                 } else {
                     Log.d(TAG, "onSuccess: Location Is Not Enabel");
                     showAlert(1);
                     return;
                 }
-
-
             }
         });
 
@@ -757,6 +479,13 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                             new LatLng(location.getLatitude(),
                                     location.getLongitude()), DEFAULT_ZOOM));
+
+                    dbLatitude = location.getLatitude();
+                    dblLongitude = location.getLongitude();
+
+                    String userID = Integer.toString(storeUser.getUserId());
+                    mDatabase.child("location").child(userID).child("latitude").setValue(dbLatitude);
+                    mDatabase.child("location").child(userID).child("longitude").setValue(dblLongitude);
 
                 } else {
                     Log.d(TAG, "onSuccess: Location Not Enable Last Method");
@@ -895,6 +624,10 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             finish();*/
         } else if (id == R.id.id_about_us_menu) {
             startActivity(new Intent(OrderMapActivity.this, AboutUsActivity.class));
+        } else if (id == R.id.id_notification_menu) {
+            startActivity(new Intent(OrderMapActivity.this, NotificationDetailActivity.class));
+        } else if (id == R.id.id_delivery_man_menu) {
+            startActivity(new Intent(OrderMapActivity.this, DeliveryManDisplay.class));
         }
 
         return false;

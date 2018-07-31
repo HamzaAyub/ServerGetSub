@@ -5,4 +5,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+
+    <string-array name="planets_array">
+        <item>Default</item>
+        <item>Mustafa_Town</item>
+        <item>Iqbal_Town</item>
+
+    </string-array>
+    <string name="title_activity_delivery_man_display">Map</string>
+
 </resources>

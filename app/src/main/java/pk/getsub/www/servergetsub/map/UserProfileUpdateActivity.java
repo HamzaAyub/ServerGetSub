@@ -79,8 +79,6 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
         editAddress = findViewById(R.id.edit_address_user_profile_update_activity);
 
 
-
-
         btnUpdate = findViewById(R.id.btn_update_user_profile_detail_activity);
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +109,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
                 /*String phone = editPhone.getText().toString();*/
                 String address = editAddress.getText().toString();
 
-                if(name.equals("") /*|| phone.equals("") */|| address.equals("")){
+                if (name.equals("") /*|| phone.equals("") */ || address.equals("")) {
                     showMessage("Fill All Fields");
                     return;
                 }
@@ -123,7 +121,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
                 //     Toast.makeText(UserProfileUpdateActivity.this, "Compeateeeeee", Toast.LENGTH_SHORT).show();
 
 
-               /* UserPojo user = new UserPojo(name, address,phone);*/
+                /* UserPojo user = new UserPojo(name, address,phone);*/
                 UserPojo user = new UserPojo(name, address);
                 updateUser(user);
                 startActivity(new Intent(UserProfileUpdateActivity.this, SplashScreen.class));
@@ -136,9 +134,9 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
         // cz "myImgPath" is not store in UserProfileAcitivity
         SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
         String ss = sp.getString("myImgPath", "mNull");
-        if(ss.equals("mNull")){
+        if (ss.equals("mNull")) {
             return;
-        }else {
+        } else {
             loadImageFromStorage(ss);
         }
 
@@ -239,9 +237,9 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
                 .build();
         LaraService services = retrofit.create(LaraService.class);
 
-      /*  Call<UserPojo> client = services.updateUser(storeUser.getUserId() , user);*/
+        /*  Call<UserPojo> client = services.updateUser(storeUser.getUserId() , user);*/
 
-        Call<UserPojo> client = services.updateUser(storeUser.getUserId() , user);
+        Call<UserPojo> client = services.updateUser(storeUser.getUserId(), user);
 
         client.enqueue(new Callback<UserPojo>() {
             @Override
@@ -263,12 +261,9 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
                 //    Toast.makeText(UserProfileUpdateActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
-              //  showMessage("Proile is Updated");
+                //  showMessage("Proile is Updated");
                 startActivity(new Intent(UserProfileUpdateActivity.this, OrderMapActivity.class));
-             //   updateUserMessage("Your Profile is Updated");
-
-
-
+                //   updateUserMessage("Your Profile is Updated");
 
 
             }
@@ -284,7 +279,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -306,13 +301,12 @@ public class UserProfileUpdateActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
                         Log.d(TAG, "updateUserMessage: " + msg);
-                        startActivity(new Intent(UserProfileUpdateActivity.this , OrderMapActivity.class));
+                        startActivity(new Intent(UserProfileUpdateActivity.this, OrderMapActivity.class));
 
                     }
                 })
                 .show();
     }
-
 
 
 }

@@ -12,10 +12,8 @@ import android.arch.persistence.room.PrimaryKey;
 public class UserHistory {
     @PrimaryKey(autoGenerate = true)
     private int uid;
-
     @ColumnInfo(name = "order")
     private String order;
-
     @ColumnInfo(name = "address")
     private String address;
 
@@ -31,8 +29,6 @@ public class UserHistory {
         this.order = order;
         this.address = address;
     }
-
-
 
     public int getUid() {
         return uid;

@@ -33,8 +33,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheckAddressActivity extends AppCompatActivity {
-
-
     private static final String TAG = "HTAG";
     private EditText editShowAddress;
     private Button btnCheckAddress;
@@ -45,61 +43,37 @@ public class CheckAddressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_address);
-
-
         Toolbar toolbar = findViewById(R.id.toolbar_check_address);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         txtshow = findViewById(R.id.txt_order_check_address);
-        // myOrder = "Default Value";
-
         editShowAddress = findViewById(R.id.edit_address_show_chek_address);
         btnCheckAddress = findViewById(R.id.btn_address_check_address);
-
         if (getIntent() != null) {
             myOrder = getIntent().getStringExtra("myOrder");
-            //   txtshow.setText(myOrder);
         } else {
             txtshow.setText("Order Not Written");
         }
-
         final UserSharPrefer user = new UserSharPrefer(this);
         final String userAddress = user.getUserAddress();
         final int userId1 = user.getUserId();
         editShowAddress.setText(userAddress);
-
-
-/// moving cursor after text in edit field
         editShowAddress.setSelection(editShowAddress.getText().length());
-
-
         btnCheckAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //    OrderPojo order = new OrderPojo(1, myOrder , "Second address");
-
-
-
-
-
-
                 String myAddress = editShowAddress.getText().toString();
-                if(myAddress.equals("")){
+                if (myAddress.equals("")) {
                     msgCheckBox("Please Enter Address");
                     return;
                 }
-
-
-                OrderPojo order = new OrderPojo(userId1, myOrder , editShowAddress.getText().toString()); // user id set karni hai
+                OrderPojo order = new OrderPojo(userId1, myOrder, editShowAddress.getText().toString()); // user id set karni hai
                 sendOrder(order);
                 //   showMessage("Simple OrderSend");
                 startActivity(new Intent(CheckAddressActivity.this, SplashScreen.class));
-
                 //      Log.d(TAG, "onClick: Check Values " + userId1 + "/"+ myOrder + "/"+ editShowAddress.getText().toString());
-
             }
         });
 
@@ -108,7 +82,7 @@ public class CheckAddressActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //return super.onOptionsItemSelected(item);
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -117,8 +91,6 @@ public class CheckAddressActivity extends AppCompatActivity {
     public void sendOrder(OrderPojo order) {
         Gson gson = new GsonBuilder().setLenient().create();  // if there is some syntext error in json array
         Retrofit retrofit = new Retrofit.Builder()
-               // .baseUrl("http://gminternational.com.pk/mlarafolder/laraserver/public/index.php/api/")  https://www.getsub.pk/mlarafolder/laraserver/public/api/userorder
-
                 .baseUrl("https://www.getsub.pk/mlarafolder/laraserver/public/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -127,7 +99,7 @@ public class CheckAddressActivity extends AppCompatActivity {
         client.enqueue(new Callback<OrderPojo>() {
             @Override
             public void onResponse(Call<OrderPojo> call, Response<OrderPojo> response) {
-                Log.d(TAG, "onResponse: Order Send "+ response);
+                Log.d(TAG, "onResponse: Order Send " + response);
 
                 Thread t = new Thread(new Runnable() {
                     @Override
@@ -135,7 +107,7 @@ public class CheckAddressActivity extends AppCompatActivity {
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                 AppDatabase.class, "database-name").build();
 
-                        UserHistory user1 = new UserHistory(  editShowAddress.getText().toString() , myOrder);
+                        UserHistory user1 = new UserHistory(editShowAddress.getText().toString(), myOrder);
                         //  UserHistory user1 = new UserHistory(  "This is my address" , "This is my Orderrr");
                         db.userDao().insertAll(user1);
                     }
@@ -144,9 +116,9 @@ public class CheckAddressActivity extends AppCompatActivity {
 
                 startActivity(new Intent(CheckAddressActivity.this, ConfirmOrder.class));
                 finish();
-             //   showMessage("Your order is confirm");
+                //   showMessage("Your order is confirm");
 
-          //      startActivity(new Intent(CheckAddressActivity.this, OrderMapActivity.class));
+                //      startActivity(new Intent(CheckAddressActivity.this, OrderMapActivity.class));
 
                 //   showMessage("Response : Order Send ");
             }
@@ -177,7 +149,7 @@ public class CheckAddressActivity extends AppCompatActivity {
                         //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
                         //   Log.d(TAG, "showMessageBox: " + msg);
 
-                        startActivity(new Intent(CheckAddressActivity.this , OrderMapActivity.class));
+                        startActivity(new Intent(CheckAddressActivity.this, OrderMapActivity.class));
                     }
                 })
                 .show();

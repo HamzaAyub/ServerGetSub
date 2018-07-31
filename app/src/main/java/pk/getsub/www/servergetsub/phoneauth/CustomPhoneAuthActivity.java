@@ -42,8 +42,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CustomPhoneAuthActivity extends AppCompatActivity {
-
-
     private static final String TAG = "HTAG";
     private EditText editNumber;
     private EditText editCode;
@@ -55,11 +53,9 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
     private TextInputLayout editNumberText;
     private TextInputLayout editCodeText;
     private ConnectionDetector cd;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String mVerificationId = null;
-
     private String phoneNumber;
     private UserSharPrefer spUser; // if number already exit in database
 
@@ -73,57 +69,38 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_phone_auth);
-
         spUser = new UserSharPrefer(this);
-        editNumber = (EditText) findViewById(R.id.edit_auth_number);
-        editCode = (EditText) findViewById(R.id.edit_auth_code);
-        btnNumber = (Button) findViewById(R.id.btn_auth_number);
-        btnCode = (Button) findViewById(R.id.btn_auth_code);
-        txtNumber = (TextView) findViewById(R.id.txt_auth_number);
-        txtCode = (TextView) findViewById(R.id.txt_auth_code);
-        imgNumber = (ImageView) findViewById(R.id.img_auth_number);
-        editNumberText = (TextInputLayout) findViewById(R.id.edit_auth_number_txt_layout);
-        editCodeText = (TextInputLayout) findViewById(R.id.edit_auth_code_txt_layout);
-
+        editNumber = findViewById(R.id.edit_auth_number);
+        editCode = findViewById(R.id.edit_auth_code);
+        btnNumber = findViewById(R.id.btn_auth_number);
+        btnCode = findViewById(R.id.btn_auth_code);
+        txtNumber = findViewById(R.id.txt_auth_number);
+        txtCode = findViewById(R.id.txt_auth_code);
+        imgNumber = findViewById(R.id.img_auth_number);
+        editNumberText = findViewById(R.id.edit_auth_number_txt_layout);
+        editCodeText = findViewById(R.id.edit_auth_code_txt_layout);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-
-
-
                     if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                         Log.d(TAG, "onComplete: 2nd");
                         startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
                         finish();
                         return;
-                    }
-                    else{
-
+                    } else {
                         Log.d(TAG, "onComplete: else part");
                         startActivity(new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class)
                                 .putExtra("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().isEmpty())
                         );
-
                         finish();
                     }
-
-
                 }
-
-
             }
 
 
         };
-
-
-
-
-
-
-
 
         cd = new ConnectionDetector(this);
         if (!(cd.CheckConnected())) {
@@ -136,48 +113,33 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                 if (!(cd.CheckConnected())) {
                     showMessage("No Internet Connection");
                 } else {
-
-
                     phoneNumber = editNumber.getText().toString();
-
                     if (phoneNumber.equals("")) {
                         showMessage("please Enter the number");
-
                         Log.d(TAG, "onClick:  empty number");
-
                     } else if (isValidMobile(phoneNumber) == true) {
-
                         String finalNumber = phoneNumber.substring(1);
-                        phoneNumber = "+92"+finalNumber;
-
+                        phoneNumber = "+92" + finalNumber;
                         if (phoneNumber.length() == 13) {
                             Log.d(TAG, "onClick: validddd");
-
                             checkPhoneNumnber(phoneNumber);
-
-                       //     UserSharPrefer storeUser = new UserSharPrefer(CustomPhoneAuthActivity.this); for log out
+                            //     UserSharPrefer storeUser = new UserSharPrefer(CustomPhoneAuthActivity.this); for log out
                             spUser.setUserPhone(phoneNumber);
                             PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60, TimeUnit.SECONDS, CustomPhoneAuthActivity.this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                                 @Override
                                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-
-
                                     Log.d(TAG, "onVerificationCompleted: 1st check");
-
                                     // if user already exit
                                     if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                                         startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
-                                   //     Log.d(TAG, " my test to check order first 1 ");
+                                        //     Log.d(TAG, " my test to check order first 1 ");
                                         finish();
                                         return;
-                                     //   System.exit(0);
-                                    }
-                                    else{
+                                        //   System.exit(0);
+                                    } else {
                                         Log.d(TAG, "onVerificationCompleted: else wala check ");
-                                        startActivity(new Intent(CustomPhoneAuthActivity.this , UserProfileActivity.class));
-
+                                        startActivity(new Intent(CustomPhoneAuthActivity.this, UserProfileActivity.class));
                                     }
-
                                 }
 
                                 @Override
@@ -198,7 +160,6 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                                 public void onCodeAutoRetrievalTimeOut(String s) {
                                     super.onCodeAutoRetrievalTimeOut(s);
                                     Log.d(TAG, "onCodeAutoRetrievalTimeOut: ");
-
                                     showMessage("Time out Error Try again");
                                 }
                             });
@@ -208,7 +169,6 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                             imgNumber.setVisibility(View.GONE);
                             editNumber.setVisibility(View.GONE);
                             editNumberText.setVisibility(View.GONE);
-
                             btnCode.setVisibility(View.VISIBLE);
                             editCode.setVisibility(View.VISIBLE);
                             txtCode.setVisibility(View.VISIBLE);
@@ -235,9 +195,8 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String code = editCode.getText().toString();
-
-                if(!(code.equals(""))) {
-                    if(code.length() == 6){
+                if (!(code.equals(""))) {
+                    if (code.length() == 6) {
 
                 /*        if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
                             startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
@@ -255,12 +214,9 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
 
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
                         signInWithCrediential(credential);
-                        startActivity(new Intent(CustomPhoneAuthActivity.this , SplashScreen.class));
-
-
+                        startActivity(new Intent(CustomPhoneAuthActivity.this, SplashScreen.class));
                     }
-                }
-                else{
+                } else {
                     showMessage("Enter Correct Code");
                 }
                 
@@ -269,7 +225,6 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                 startActivity(new Intent(CustomPhoneAuthActivity.this , SplashScreen.class));*/
             }
         });
-
     }
 
     private void signInWithCrediential(PhoneAuthCredential phoneAuthCrediential) {
@@ -282,16 +237,12 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
 // bcz number should b check either user have it or not
 
                             Log.d(TAG, "onComplete: 1st");
-
                             if (!(spUser.getName().equals("mNull") && spUser.getUserAddress().equals("mNull"))) {
-
                                 Log.d(TAG, "onComplete: 2nd");
                                 startActivity(new Intent(CustomPhoneAuthActivity.this, OrderMapActivity.class));
                                 finish();
                                 return;
-                            }
-                            else{
-
+                            } else {
 
 
                                 Log.d(TAG, "onComplete: else part");
@@ -310,9 +261,7 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
                             );
 
                             finish();*/
-                        }
-
-                        else {
+                        } else {
                             showMessage("Enter Correct Code");
                             return;
                         }
@@ -348,8 +297,7 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
     }
 
 
-
-    private void checkPhoneNumnber(String number ){
+    private void checkPhoneNumnber(String number) {
 
         Gson gson = new GsonBuilder().setLenient().create();  // if there is some syntext error in json array
         Retrofit retrofit = new Retrofit.Builder()
@@ -361,41 +309,29 @@ public class CustomPhoneAuthActivity extends AppCompatActivity {
         client.enqueue(new Callback<UserPojo>() {
             @Override
             public void onResponse(Call<UserPojo> call, Response<UserPojo> response) {
-
                 Log.d(TAG, "onResponse:" + response);
-
                 Log.d(TAG, "onResponse: Signup : " + response.message());
                 Log.d(TAG, "onResponse:" + response.body().getId());
 
                 int myId = response.body().getId();
-
-
                 spUser.setUserId(myId);
                 spUser.setName(response.body().getName());
                 spUser.setUserPhone(response.body().getPhone());
                 spUser.setUserAddress(response.body().getAddress());
 
-            //    startActivity(new Intent(CustomPhoneAuthActivity.this , OrderMapActivity.class));
-
-
-
+                //    startActivity(new Intent(CustomPhoneAuthActivity.this , OrderMapActivity.class));
                 //   startActivity(new Intent(UserProfileActivity.this, FrontPageActivity.class));
-
                 //      startActivity(new Intent(UserProfileActivity.this, OrderMapActivity.class));
-
-
-
             }
 
             @Override
             public void onFailure(Call<UserPojo> call, Throwable t) {
                 Log.d(TAG, "onFailure:" + t);
-           //     showMessage("Some Connection Error");
+                //     showMessage("Some Connection Error");
             }
         });
 
     }
-
 
 
 }

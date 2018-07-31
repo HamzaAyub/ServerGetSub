@@ -16,12 +16,10 @@ public class ConfirmOrder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
-
         showMessage("Your Order is Confirm");
     }
 
     public void showMessage(final String msg) {
-
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
@@ -34,10 +32,7 @@ public class ConfirmOrder extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
-                        //   Log.d(TAG, "showMessageBox: " + msg);
-
-                        startActivity(new Intent(ConfirmOrder.this , OrderMapActivity.class));
+                        startActivity(new Intent(ConfirmOrder.this, OrderMapActivity.class));
                     }
                 })
                 .show();

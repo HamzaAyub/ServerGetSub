@@ -10,7 +10,6 @@ import android.util.Log;
 import pk.getsub.www.servergetsub.R;
 
 public class SplashScreen extends AppCompatActivity {
-
     private static final String TAG = "HTG";
 
     @Override
@@ -31,35 +30,10 @@ public class SplashScreen extends AppCompatActivity {
             }
         };
         t.start();
-
-
-
     }
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-    }
-
-    private void showMessage(final String msg) {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
-        builder.setTitle("Alert Message")
-                .setCancelable(false)
-                .setMessage(msg)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //  Snackbar.make( constraintLayout, msg ,Snackbar.LENGTH_SHORT).show();
-                        Log.d(TAG, "showMessageBox: Splash Screen" + msg);
-
-                        return;
-                    }
-                })
-                .show();
     }
 }

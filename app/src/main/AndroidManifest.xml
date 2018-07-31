@@ -36,9 +36,7 @@
 
         <activity
             android:name=".map.OrderMapActivity"
-            android:clearTaskOnLaunch="true">
-
-        </activity>
+            android:clearTaskOnLaunch="true" />
         <activity android:name=".map.CallOrderActivity" />
         <activity android:name=".map.UserProfileDetailActivity" />
         <activity android:name=".map.UserProfileUpdateActivity" />
@@ -52,8 +50,36 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <service android:name=".notification.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".notification.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <activity android:name=".notification.NotificationDetailActivity" />
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/mylogo" />
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+
+        <activity
+            android:name=".deliveryman.DeliveryManDisplay"
+            android:label="@string/title_activity_delivery_man_display"></activity>
     </application>
 
 </manifest>

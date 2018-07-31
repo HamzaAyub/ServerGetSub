@@ -20,13 +20,10 @@ import java.util.List;
 import pk.getsub.www.servergetsub.R;
 
 public class HistoryActivity extends AppCompatActivity {
-
     private static final String TAG = "HTAG";
-
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
-
     private ArrayList<UserHistory> arrayList;
     private TextView txtMsgHistoryActivity;
 
@@ -34,25 +31,18 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-
         Toolbar toolbar = findViewById(R.id.id_toolbar_activity_history);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        txtMsgHistoryActivity = (TextView) findViewById(R.id.show_txt_activity_history);
-
-
+        txtMsgHistoryActivity = findViewById(R.id.show_txt_activity_history);
         arrayList = new ArrayList<>();
-
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(HistoryActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new MyAdapter(HistoryActivity.this , arrayList);
+        adapter = new MyAdapter(HistoryActivity.this, arrayList);
         recyclerView.setAdapter(adapter);
-
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -60,58 +50,51 @@ public class HistoryActivity extends AppCompatActivity {
 
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "database-name").build();
-
-
                /* UserHistory user1 = new UserHistory(  "282 Qayyum Block, Mustafa Town, Lahore" , "Olive ");
                 db.userDao().insertAll(user1);*/
 
-
-
-
                 List<UserHistory> myUser = db.userDao().getAll();
-
                 Log.d(TAG, "run: " + myUser);
-
                 for (int i = 0; i < db.userDao().getAll().size(); i++) {
 
                     //        UserHistory user = new UserHistory(myUser.get(i).getUid() ,myUser.get(i).getOrder(), myUser.get(i).getAddress() );
-                    UserHistory user = new UserHistory(myUser.get(i).getOrder(), myUser.get(i).getAddress() );
+                    UserHistory user = new UserHistory(myUser.get(i).getOrder(), myUser.get(i).getAddress());
                     arrayList.add(user);
                     //   Log.d(TAG, "run: " + myUser.get(i).getFirstName()+" // " + myUser.get(i).getLastName());
                 }
                 Collections.reverse(arrayList);
-
-          //      Log.d(TAG, "run: " + arrayList.size());
-
-                if (arrayList.size() == 0 ){
+                //      Log.d(TAG, "run: " + arrayList.size());
+                if (arrayList.size() == 0) {
                     Log.d(TAG, "run:  you havnt order anything yet, so your history is empty");
-                }
-                else {
+                } else {
                     Log.d(TAG, "run: u send orderr" + arrayList.size());
 
-                    txtMsgHistoryActivity.setVisibility(View.GONE);
-                }
 
+                    txtMsgHistoryActivity.post(new Runnable() {
+                        public void run() {
+                            txtMsgHistoryActivity.setVisibility(View.GONE);
+                        }
+                    });
+
+                   // txtMsgHistoryActivity.setVisibility(View.GONE);
+                //    Toast.makeText(HistoryActivity.this, "History Is Empty", Toast.LENGTH_SHORT).show();
+                }
 
                 //  Log.d(TAG, "run: " + myUser.get(1).getFirstName()+" // " + myUser.get(1).getLastName());
 /*
                 Log.d(TAG, "onCreate: " + db.userDao().getAll());
                 Log.d(TAG, "onCreate: " + db.userDao().getAll());
-
                 int []a = {1};
-
                 Log.d(TAG, "onCreate: " + db.userDao().loadAllByIds(a));*/
-
             }
         });
 
         t.start();
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
