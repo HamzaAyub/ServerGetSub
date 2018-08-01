@@ -41,9 +41,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserProfileActivity extends AppCompatActivity {
-
-
-
     private static final String TAG = "HTAG";
     private Button btnNextUserProfile;
     private EditText editNameUserProfile;
@@ -56,9 +53,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private SharedPreferences spObj;
     private static Uri selectedImageUri;
     private UserSharPrefer storeUser;
-
     private static int myImgCheckTest = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +61,6 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         storeUser = new UserSharPrefer(UserProfileActivity.this);
-
         // spObj = getSharedPreferences("myProfileFile" , MODE_PRIVATE);
         phoneNumber = "77";
         imgProfile = (ImageView) findViewById(R.id.img_circle_user_profile);
@@ -77,12 +71,8 @@ public class UserProfileActivity extends AppCompatActivity {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
               /*  Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, IMG_CODE);*/
-
-
                 //  myImgCheckTest = 0;
             }
         });
@@ -115,10 +105,6 @@ public class UserProfileActivity extends AppCompatActivity {
                         startActivity(new Intent(UserProfileActivity.this, SplashScreen.class));
                         return;
                     }
-             /*   else {
-                     imgphoto = imageToString();
-                }*/
-
                     imgphoto = imageToString();
 
 
@@ -128,22 +114,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     storeUser.setUserAddress(editAddress);
                     storeUser.setUserImage(imgphoto);
                     storeUser.setUserPhone(number); // phoneNumber
-
-
-                       /*UserPojo user1 = new UserPojo(storeUser.getName(), storeUser.getUserAddress(), "333845", storeUser.getUserImage());*/
-
-                      /* UserPojo user1 = new UserPojo("mName", "mAddressss", "333845", "iiiii");
-                    sendPost(user1);*/
-
                     UserPojo user = new UserPojo(editName, editAddress, number, "testImage");
                     sendPost(user);
                     startActivity(new Intent(UserProfileActivity.this, SplashScreen.class));
-               /* ProgressDialog pd = new ProgressDialog(UserProfileActivity.this);
-                pd.setTitle("Title");
-                pd.setMessage("Loding ....");
-                pd.show();*/
-
-
                 }// connection check else
             }
         });
@@ -153,40 +126,21 @@ public class UserProfileActivity extends AppCompatActivity {
 
         Gson gson = new GsonBuilder().setLenient().create();  // if there is some syntext error in json array
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://gminternational.com.pk/mlarafolder/laraserver/public/index.php/api/") https://www.getsub.pk/mlarafolder/laraserver/public/api/userlogin
                 .baseUrl("https://www.getsub.pk/mlarafolder/laraserver/public/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        //  .baseUrl("http://192.168.1.4/larabeyfikar/public/api/")
         LaraService services = retrofit.create(LaraService.class);
         Call<UserPojo> client = services.saveUser(user);
         client.enqueue(new Callback<UserPojo>() {
             @Override
             public void onResponse(Call<UserPojo> call, Response<UserPojo> response) {
-
-
                 Log.d(TAG, "onResponse:" + response);
-
-
                 Log.d(TAG, "onResponse: Signup : " + response.message());
                 Log.d(TAG, "onResponse:" + response.body().getId());
-
                 int myId = response.body().getId();
                 storeUser.setUserId(myId);
                 Log.d(TAG, "onResponse: Store User Id: " + storeUser.getUserId());
-
-
-                //   startActivity(new Intent(UserProfileActivity.this, FrontPageActivity.class));
-
                 startActivity(new Intent(UserProfileActivity.this, OrderMapActivity.class));
-
-
-               /* if(response.message() == "OK" || response.message() =="ok"){
-                     // startActivity(new Intent(UserProfileActivity.this, FrontPageActivity.class));
-                }else{
-                    Snackbar.make(constraintLayout, "OnResponse error", Snackbar.LENGTH_SHORT).show();
-                }*/
-
 
             }
 
@@ -301,7 +255,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 })
                 .show();
     }
-
 
     @Override
     public void onBackPressed() {
